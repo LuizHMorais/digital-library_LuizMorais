@@ -1,6 +1,3 @@
-# gerenciador.py
-# Arquivo responsável pelas funções de manipulação de arquivos e diretórios
-
 from pathlib import Path
 import shutil
 
@@ -21,6 +18,8 @@ def listar_documentos():
             # Organiza os arquivos em um dicionário aninhado: {extensao: {ano: [nomes]}}
             arquivos.setdefault(extensao, {}).setdefault(ano, []).append(arquivo.name)
 
+    if not arquivos:
+        print("Nenhum documento encontrado na biblioteca.")
     return arquivos  # Retorna o dicionário com a organização dos arquivos.
 
 # Função para adicionar um novo documento à biblioteca, dentro da pasta correspondente ao ano.
@@ -40,13 +39,23 @@ def adicionar_documento(caminho_origem, ano):
 
 # Função para renomear um documento existente na pasta do respectivo ano.
 def renomear_documento(ano, nome_antigo, nome_novo):
-    caminho = BASE_DIR / str(ano) / nome_antigo  # Define o caminho atual do arquivo.
-    novo_caminho = BASE_DIR / str(ano) / nome_novo  # Define o novo caminho (com o novo nome).
+    caminho = BASE_DIR / str(ano) / nome_antigo
+    novo_caminho = BASE_DIR / str(ano) / nome_novo
 
-    caminho.rename(novo_caminho)  # Executa a renomeação do arquivo no sistema.
+    if not caminho.exists():
+        print(f"Erro: o arquivo '{nome_antigo}' não foi encontrado na pasta '{ano}'.")
+        return
+
+    caminho.rename(novo_caminho)
+    print(f"Arquivo '{nome_antigo}' renomeado para '{nome_novo}' com sucesso.")
 
 # Função para remover um documento da pasta correspondente ao ano.
 def remover_documento(ano, nome_arquivo):
-    caminho = BASE_DIR / str(ano) / nome_arquivo  # Define o caminho completo do arquivo a ser removido.
+    caminho = BASE_DIR / str(ano) / nome_arquivo
 
-    caminho.unlink()  # Remove fisicamente o arquivo do sistema de arquivos.
+    if not caminho.exists():
+        print(f"Erro: o arquivo '{nome_arquivo}' não foi encontrado na pasta '{ano}'.")
+        return
+
+    caminho.unlink()
+    print(f"Arquivo '{nome_arquivo}' removido com sucesso.")
