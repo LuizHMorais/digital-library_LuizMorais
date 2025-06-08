@@ -25,11 +25,18 @@ def listar_documentos():
 
 # Função para adicionar um novo documento à biblioteca, dentro da pasta correspondente ao ano.
 def adicionar_documento(caminho_origem, ano):
-    destino = BASE_DIR / str(ano)  # Cria o caminho de destino usando o ano informado.
+    try:
+        origem = Path(caminho_origem).resolve(strict=True)  # Resolve o caminho absoluto e verifica se existe
+    except FileNotFoundError:
+        print(f"Erro: o arquivo '{caminho_origem}' não foi encontrado.")
+        return
 
-    destino.mkdir(parents=True, exist_ok=True)  # Garante que a pasta existe (cria se necessário).
+    destino = BASE_DIR / str(ano)  # Cria o caminho de destino usando o ano informado
+    destino.mkdir(parents=True, exist_ok=True)  # Garante que a pasta existe (cria se necessário)
 
-    shutil.copy(caminho_origem, destino)  # Copia o arquivo da origem para o destino.
+    destino_arquivo = destino / origem.name
+    shutil.copy(origem, destino_arquivo)  # Copia o arquivo da origem para o destino
+    print(f"Arquivo '{origem.name}' adicionado com sucesso em '{destino}/'.")
 
 # Função para renomear um documento existente na pasta do respectivo ano.
 def renomear_documento(ano, nome_antigo, nome_novo):

@@ -18,3 +18,5 @@ python biblioteca_digital.py adicionar --origem caminho/arquivo.pdf --ano 2023
 python biblioteca_digital.py renomear --ano 2023 --arquivo antigo.pdf --novo_nome novo.pdf
 python biblioteca_digital.py remover --ano 2023 --arquivo arquivo.pdf
 ```
+## ⚠️ Caminhos com espaços devem ser entre aspas. Exemplo:
+python biblioteca_digital.py adicionar --origem "meu arquivo.pdf" --ano 2023
