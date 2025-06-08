@@ -1,5 +1,4 @@
 # Guia de Contribuição
-# Guia de Contribuição
 
 Se desejar contribuir com este projeto, siga os passos abaixo:
 
